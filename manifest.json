@@ -1,0 +1,10 @@
+{
+  "manifest_version": 1,
+  "name": "Slacker",
+  "version": "1.0.0",
+  "description": "An extension to remind you to exercise while working",
+  "icons": {
+    "48": "images/icon-48.png",
+    "128": "images/icon-128.png"
+  }
+}
