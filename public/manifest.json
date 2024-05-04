@@ -7,7 +7,10 @@
     "48": "icon-48.png",
     "128": "icon-48.png"
   },
-  "scripts": ["service-worker.js"],
+  "background": {
+    "service_worker": "service-worker.js",
+    "persistant": "true"
+  },
   "action": { "default_popup": "index.html" },
   "permissions": ["scripting", "nativeMessaging"],
   "host_permissions": ["http://*/*", "https://*/*"]

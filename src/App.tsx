@@ -1,47 +1,31 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
+import logo from "./assets/noun-relax-4498343.png";
+import { Activity } from "./commons/types";
+import { Reminder } from "./components/reminder";
+
+const reminderPrompts: Activity[] = [
+  { emoji: "👀", text: "Relax your eyes", timer: 0.1 },
+  { emoji: "🚰", text: "Hydrate", timer: 45 },
+  { emoji: "🙆‍♂️", text: "Stretch", timer: 60 },
+];
 
 function App() {
-  const [count, setCount] = useState(0);
-
-  const changeColorOnClick = async () => {
-    const [tab] = await chrome.tabs.query({
-      active: true,
-      currentWindow: true,
-    });
-    chrome.scripting.executeScript({
-      target: { tabId: tab.id! },
-      func: () => {
-        document.body.style.backgroundColor = "green";
-      },
-    });
-  };
-
   return (
     <>
+      <div className="flex items-center	">
+        {" "}
+        <img src={logo} height={75} width={75} />
+        <h1>Slacker</h1>
+      </div>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        {reminderPrompts.map((prompt: Activity) => {
+          return (
+            <>
+              <Reminder prompt={prompt} />
+            </>
+          );
+        })}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <button onClick={() => changeColorOnClick()}>Change Color</button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   );
 }
