@@ -28,6 +28,18 @@ export const Reminder: React.FC<{ prompt: Activity }> = ({ prompt }) => {
   const minutes = Math.floor(timeRemaining / 60);
   const seconds = timeRemaining % 60;
 
+  useEffect(() => {
+    // Add event listener for messages from the background script
+    chrome.runtime.onMessage.addListener((message) => {
+      if (message.action === "backgroundTaskCompleted") {
+        // Handle the message appropriately
+        console.log("Background task completed:", message.data.message);
+        // For example, you might update the UI to display the message
+        // or trigger some other action based on the completed task
+      }
+    });
+  }, []);
+
   return (
     <div className="flex gap-x-4 text-left w-full">
       <p> {prompt.emoji}</p>

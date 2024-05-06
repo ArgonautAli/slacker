@@ -12,6 +12,21 @@
     "persistant": "true"
   },
   "action": { "default_popup": "index.html" },
-  "permissions": ["scripting", "nativeMessaging"],
-  "host_permissions": ["http://*/*", "https://*/*"]
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "storage",
+    "webRequest",
+    "webNavigation",
+    "notifications",
+    "contextMenus",
+    "unlimitedStorage"
+  ],
+  "host_permissions": ["http://*/*", "https://*/*"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ]
 }
