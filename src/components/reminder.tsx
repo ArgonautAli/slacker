@@ -33,7 +33,7 @@ export const Reminder: React.FC<{ prompt: Activity }> = ({ prompt }) => {
     chrome.runtime.onMessage.addListener((message) => {
       if (message.action === "backgroundTaskCompleted") {
         // Handle the message appropriately
-        console.log("Background task completed:", message.data.message);
+        console.log("Background task completed:", message.data);
         // For example, you might update the UI to display the message
         // or trigger some other action based on the completed task
       }

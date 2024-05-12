@@ -34,12 +34,13 @@ timers.forEach(({ timer, text }) => {
     } else {
       chrome.runtime.sendMessage({
         action: "backgroundTaskCompleted",
-        data: { message: text }
+        data: { message: text, timer: timer }
       });
       timer = timer * 60; // Reset timer
     }
   }, 1000);
 });
+
 
 
 
