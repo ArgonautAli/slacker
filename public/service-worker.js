@@ -26,28 +26,42 @@ const timers = [
   { timer: 7 * 60, text: "Timer 3 is completed" }
 ];
 
-
-timers.forEach(({ timer, text }) => {
-  setInterval(() => {
-    if (timer > 0) {
-      timer--;
-    } else {
-      chrome.runtime.sendMessage({
-        action: "backgroundTaskCompleted",
-        data: { message: text, timer: timer }
-      });
-      timer = timer * 60; // Reset timer
-    }
-  }, 1000);
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  console.log("Received message:", request);
+  if (request.action === "checkIfInitialized") {
+    timers.forEach(({ timer, text }) => {
+      setInterval(() => {
+        if (timer > 0) {
+          timer--;
+        } else {
+          chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            if (chrome.runtime.lastError) {
+              console.error(chrome.runtime.lastError.message);
+              return;
+            }
+            if (tabs.length === 0 || !tabs[0].id) {
+              console.error("No active tab found or tab id is undefined.");
+              return;
+            }
+            chrome.tabs.sendMessage(tabs[0].id, {action: "backgroundMessage", timer: timer,text: text }, function(response) {
+              console.log("sent message")
+              if (chrome.runtime.lastError) {
+                console.error(chrome.runtime.lastError.message);
+              } else {
+                console.log("Response from content script:", response);
+              }
+            });
+          });
+          timer = timer * 60; // Reset timer
+        }
+      }, 1000);
+    });
+    sendResponse({ initialized: true });
+  }
+  // Return true to indicate you want to send a response asynchronously
+  return true;
 });
 
 
 
 
-// chrome.runtime.onMessage.addListener((message) => {
-//   if (message.action === 'backgroundTaskCompleted') {
-//     // Handle the message from the service worker
-//     console.log('Received message from service worker:', message.data);
-//     alert(message.data)
-//   }
-// });
