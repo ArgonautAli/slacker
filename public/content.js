@@ -23,9 +23,10 @@ chrome.runtime.sendMessage({ action: "checkIfInitialized" }, (response) => {
     }
   });
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-console.log("message",message, "sender",sender)
-  if (message.from == "script1"){
+console.log("message",message)
+  if (message.text == "completed"){
     console.log("script1")
+    alert("completed")
   }
 });
 
